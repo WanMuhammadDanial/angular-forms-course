@@ -5,6 +5,11 @@ export function createPasswordStrengthValidator(): ValidatorFn {
          const value = control.value;
          if (!value){
             return null;
+
+             
+             
+
+            
          }
     }
 
