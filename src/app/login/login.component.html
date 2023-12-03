@@ -8,7 +8,7 @@
     >
       <mat-form-field>
         <input
-          ngModel
+          [(ngModel)]="val.email"
           matInput
           type="email"
           #email="ngModel"
@@ -34,10 +34,11 @@
 
       <mat-form-field>
         <input
-          ngModel
+          [(ngModel)]="val.password"
           matInput
           #password="ngModel"
           required
+          passwordStrength
           type="password"
           name="password"
           placeholder="Password"
