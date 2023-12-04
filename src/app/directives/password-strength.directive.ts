@@ -1,14 +1,21 @@
-import { ValidationErrors } from '@angular/forms';
-import { AbstractControl } from '@angular/forms';
-import { Validator } from '@angular/forms';
+import { NG_VALIDATORS, ValidationErrors } from "@angular/forms";
+import { AbstractControl } from "@angular/forms";
+import { Validator } from "@angular/forms";
 import { Directive } from "@angular/core";
-import { createPasswordStrengthValidator } from '../validators/password-strength.validator';
+import { createPasswordStrengthValidator } from "../validators/password-strength.validator";
 
 @Directive({
-  selector: "[passwordStrength]"
+  selector: "[passwordStrength]",
+  providers: [
+    {
+      provide: NG_VALIDATORS,
+      useExisting: PasswordStrengthDirective,
+      multi: true,
+    },
+  ],
 })
-export class PasswordStrengthDirective implements Validator{
-  validate(control: AbstractControl): ValidationErrors | null  {
+export class PasswordStrengthDirective implements Validator {
+  validate(control: AbstractControl): ValidationErrors | null {
     return createPasswordStrengthValidator()(control);
   }
 }
