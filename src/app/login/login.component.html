@@ -1,5 +1,5 @@
 <mat-card class="login-page">
-  <mat-card-title>Login</mat-card-title>
+  <mat-card-title>Login (Template-Driven)</mat-card-title>
   <mat-card-content>
     <form
       class="login-form data-form"
@@ -8,7 +8,7 @@
     >
       <mat-form-field>
         <input
-          [(ngModel)]="val.email"
+          ngModel
           matInput
           type="email"
           #email="ngModel"
@@ -35,7 +35,7 @@
 
       <mat-form-field>
         <input
-          [(ngModel)]="val.password"
+          ngModel
           matInput
           #password="ngModel"
           required
@@ -46,26 +46,25 @@
           placeholder="Password"
         />
 
-        <ng-container
-          *ngIf="
-            password.errors | onlyOneError : ['minlength', 'passwordStrength']
-          "
-          as
-          error
-        >
-          <mat-error *ngIf="error?.minlength"
-            >Your password must have a minimum
-            {{ error?.minlength.requiredLength }} chars, but it only has
-            {{ error?.minlength.actualLength }}</mat-error
+        <mat-error>
+          <ng-container
+            *ngIf="
+              password.errors
+                | onlyOneError : ['minlength', 'passwordStrength'] as error
+            "
           >
-          <mat-error *ngIf="error?.passwordStrength"
-            >Password is mad weak</mat-error
-          >
-        </ng-container>
+            <span *ngIf="error.minlength">
+              Your password must have minimum
+              {{ error.minlength.requiredLength }} chars, but it only has
+              {{ error.minlength.actualLength }}.
+            </span>
 
-        <!-- <mat-error *ngIf="email.errors?.required"
-          >The password is required</mat-error
-        > -->
+            <span *ngIf="error.passwordStrength">
+              Your password must have lower case, upper case and numeric
+              characters.
+            </span>
+          </ng-container>
+        </mat-error>
       </mat-form-field>
 
       <button
