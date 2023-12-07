@@ -8,8 +8,18 @@
           type="email"
           name="email"
           placeholder="Email"
-          [formControl]="email"
+          formControlName="email"
         />
+        <mat-error *ngIf="email.errors?.required"
+          >The email is required</mat-error
+        >
+        <mat-error *ngIf="email.errors?.minlength"
+          >Your email must have a minimum
+          {{ email.errors?.minlength.requiredLength }} chars, but it only has
+          {{ email.errors?.minlength.actualLength }}</mat-error
+        >
+        <mat-error *ngIf="email.errors?.email"
+          >This is not a valid email</mat-error>
       </mat-form-field>
 
       <mat-form-field>
@@ -17,11 +27,33 @@
           matInput
           type="password"
           placeholder="Password"
-          [formControl]="password"
+          formControlName="password"
         />
+
+        <mat-error>
+          <ng-container
+            *ngIf="
+              password.errors
+                | onlyOneError : ['minlength', 'passwordStrength'] as error
+            "
+          >
+            <span *ngIf="error.minlength">
+              Your password must have minimum
+              {{ error.minlength.requiredLength }} chars, but it only has
+              {{ error.minlength.actualLength }}.
+            </span>
+
+            <span *ngIf="error.passwordStrength">
+              Your password must have lower case, upper case and numeric
+              characters.
+            </span>
+          </ng-container>
+        </mat-error>
       </mat-form-field>
 
-      <button mat-raised-button color="primary">Login</button>
+      <button mat-raised-button color="primary" [disabled]="form.valid" (click)="login()">Login</button>
+      <button mat-raised-button color="primary" (click)="this.form.reset()">Reset</button>
+
     </form>
 
     <div class="form-val">
